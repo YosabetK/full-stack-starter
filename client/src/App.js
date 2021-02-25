@@ -13,7 +13,8 @@ import Login from './Login';
 import Passwords from './Passwords';
 import Register from './Register';
 import SectionItems from './SectionItems';
-
+import Component from './Component';
+import Sections from './Sections/Sections';
 function App() {
   return (
     <AuthContextProvider>
@@ -22,6 +23,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route path="/component">
+            <Component />
           </Route>
           <Route path="/login">
             <Login />
@@ -34,6 +38,9 @@ function App() {
               <Register />
             </Route>
           )}
+           <Route path="/Sections">
+              <Sections />
+            </Route>
           <AuthProtectedRoute path="/sectionItems">
             <SectionItems />
           </AuthProtectedRoute>
