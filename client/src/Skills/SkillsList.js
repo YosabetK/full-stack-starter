@@ -1,0 +1,39 @@
+import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import Api from '../Api';
+
+function SkillsList(){
+    const [skills, setSkills] = useState([]);
+    useEffect(function(){
+      Api.sections.index().then(response => setSkills(response.data));  
+    }, []);
+
+    function onDelete(skill){
+      if (window.confirm(`Are you sure you wish to delete ${skill.name}?`)){
+        //we'll execute code to delete the section
+        Api.skills.delete(skill.id).then(function(){
+          // we're filtering the sections list, keeping every section that does not 
+          //match the one we're deleting
+          const newSkills = skills.filter(s => s.id !== skill.id);
+          setSkills(newSkills);
+        });
+      }
+    }
+    return(
+      //display
+        <main className="continer">
+            <h1>Skills List</h1>
+            <Link className="btn btn-primary" to="/sections/new">New</Link>
+            <ul>
+              {skills.map(s =>(
+                  <li>
+                    <p><Link to={`/skills/${s.id}/edit`}>{s.name},{s.position}</Link></p>
+                    <p><button onClick={() => onDelete(s)} type="button" className="btn btn-sm btn-danger">Delete</button></p>
+                  </li>
+              ))}
+            </ul>
+        </main>
+    );
+
+}
+export default SkillsList;
